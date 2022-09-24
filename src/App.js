@@ -11,6 +11,7 @@ import PizzaBlock from './components/PizzaBlock';
 function App() {
   return (
     <div className="wrapper">
+      pis'ki
       <Header />
       <div className="content">
         <div className="container">
