@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
+export default function PizzaBlock({ name, price, imageUrl, sizes, types }) {
 
     const [pizzaCount, setPizzaCount] = useState(0)
     const [activeType, setActiveType] = useState(0)
@@ -12,10 +12,6 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
         setPizzaCount(pizzaCount + 1)
     }
 
-    // const onClickType = (index) => {
-    //     setActiveType(index)
-    // }
-
     return (
         <div className="pizza-block">
             <img
@@ -23,7 +19,7 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
                 src={imageUrl}
                 alt="Pizza"
             />
-            <h4 className="pizza-block__title">{title}</h4>
+            <h4 className="pizza-block__title">{name}</h4>
             <div className="pizza-block__selector">
                 <ul>
                     {types.map((typeId) => {
