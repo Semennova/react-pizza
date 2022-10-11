@@ -1,10 +1,12 @@
 import React from "react";
 import Categories from "../components/Categories";
+import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Sort from "../components/Sort";
 
-export default function Home() {
+
+export default function Home({ searchValue }) {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryIdx, setCategoryIdx] = React.useState(0);
@@ -12,16 +14,21 @@ export default function Home() {
     name: "популярности",
     property: "rating",
   });
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const itemsPerPage = 4
+  const pagesCount = Math.ceil(items.length / itemsPerPage)
+
 
   React.useEffect(() => {
     setIsLoading(true);
 
-    const category =  categoryIdx > 0 ? `category=${categoryIdx}` : ''
-    const sortBy = selectedType.property.replace('-', '')
-    const order = selectedType.property.includes('-') ? 'desc' : 'asc'
+    const category = categoryIdx > 0 ? `category=${categoryIdx}` : "";
+    const sortBy = selectedType.property.replace("-", "");
+    const order = selectedType.property.includes("-") ? "desc" : "asc";
+    const search = searchValue ? `&search=${searchValue}` : ''
 
     fetch(
-      `https://6332bc21573c03ab0b4f552f.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`
+      `https://6332bc21573c03ab0b4f552f.mockapi.io/items?page=${currentPage}&limit=4${category}&sortBy=${sortBy}${search}&order=${order}`
     )
       .then((res) => {
         return res.json();
@@ -32,7 +39,16 @@ export default function Home() {
       });
 
     window.scrollTo(0, 0);
-  }, [categoryIdx, selectedType]);
+  }, [categoryIdx, selectedType, currentPage, searchValue]);
+
+  const skeleton = [...new Array(6)].map((_, idx) => <Skeleton key={idx} />);
+  const pizzas = items
+  .map((pizza) => {
+      return <PizzaBlock key={pizza.id} {...pizza} />;
+    });
+
+
+console.log(searchValue);
 
   return (
     <div className="container">
@@ -44,13 +60,10 @@ export default function Home() {
         <Sort selected={selectedType} setSelected={setSelectedType} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading
-          ? [...new Array(6)].map((_, idx) => <Skeleton key={idx} />)
-          : items.map((pizza) => {
-              return <PizzaBlock key={pizza.id} {...pizza} />;
-            })}
-      </div>
+      <div className="content__items">{isLoading ? skeleton : pizzas}</div>
+
+     <Pagination pagesCount={3} onChangePage={(number)=> setCurrentPage(number)}/>
+
     </div>
   );
 }
