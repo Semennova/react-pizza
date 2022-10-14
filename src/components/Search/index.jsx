@@ -2,8 +2,11 @@ import React from "react";
 import s from "./Search.module.scss";
 import search from "../assets/img/search.png";
 import clear from "../assets/img/clear.png";
+import { SearchContext } from "../../App";
 
-export default function Search({ searchValue, setSearchValue }) {
+export default function Search() {
+  const { searchValue, setSearchValue } = React.useContext(SearchContext)
+
   const onSearchValueChange = (e) => {
     setSearchValue(e.target.value);
   };
