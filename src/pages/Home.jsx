@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { SearchContext } from "../App";
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
@@ -13,7 +14,8 @@ export default function Home() {
    const { searchValue } = React.useContext(SearchContext)
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [categoryIdx, setCategoryIdx] = React.useState(0);
+  // const [categoryIdx, setCategoryIdx] = React.useState(0);
+  const categoryIdx = useSelector((state) => state.filter.categoryIdx);
   const [selectedType, setSelectedType] = React.useState({
     name: "популярности",
     property: "rating",
@@ -51,15 +53,12 @@ export default function Home() {
       return <PizzaBlock key={pizza.id} {...pizza} />;
     });
 
-
-console.log(searchValue);
-
   return (
     <div className="container">
       <div className="content__top">
         <Categories
-          categoryIdx={categoryIdx}
-          onClickCategory={(id) => setCategoryIdx(id)}
+          // categoryIdx={categoryIdx}
+          // onClickCategory={(id) => setCategoryIdx(id)}
         />
         <Sort selected={selectedType} setSelected={setSelectedType} />
       </div>
