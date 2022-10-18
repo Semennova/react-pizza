@@ -9,7 +9,11 @@ const initialState = {
     "Острые",
     "Закрытые",
   ],
-  categoryIdx: 0
+  categoryIdx: 0,
+  sortType: {
+    name: "популярности",
+    property: "rating",
+  },
 };
 
 export const filterSlice = createSlice({
@@ -27,8 +31,11 @@ export const filterSlice = createSlice({
     // },
 
     selectCategory: (state, action) => {
-        console.log(action);
-        state.categoryIdx = action.payload
+      state.categoryIdx = action.payload;
+    },
+
+    setSelectedType: (state, action) => {
+      state.sortType = action.payload;
     },
   },
 });
@@ -36,6 +43,7 @@ export const filterSlice = createSlice({
 console.log(filterSlice);
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount, selectCategory } = filterSlice.actions;
+export const { increment, decrement, incrementByAmount, selectCategory, setSelectedType } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;
