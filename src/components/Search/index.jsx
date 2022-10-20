@@ -3,21 +3,35 @@ import s from "./Search.module.scss";
 import search from "../assets/img/search.png";
 import clear from "../assets/img/clear.png";
 import { SearchContext } from "../../App";
+import debounce from "lodash.debounce";
 
 export default function Search() {
-  const { searchValue, setSearchValue } = React.useContext(SearchContext)
+  const [value, setValue] = React.useState('')
+  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  const inputRef = React.useRef();
+
+  const debounceSearchValue = React.useCallback(
+    debounce((str)=> {
+      setSearchValue(str)
+    }, 1000), []
+  )
 
   const onSearchValueChange = (e) => {
-    setSearchValue(e.target.value);
+    setValue(e.target.value);
+    debounceSearchValue(e.target.value)
   };
 
   const clearInput = () => {
-    setSearchValue("");
+    setSearchValue("")
+    setValue("");
+    inputRef.current.focus();
   };
+
   return (
     <div className={s.root}>
       <input
-        value={searchValue}
+        ref={inputRef}
+        value={value}
         onChange={(e) => onSearchValueChange(e)}
         className={s.input}
         placeholder="Поиск пиццы..."

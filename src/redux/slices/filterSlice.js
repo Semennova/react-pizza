@@ -14,21 +14,13 @@ const initialState = {
     name: "популярности",
     property: "rating",
   },
+  currentPage: 1
 };
 
 export const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    // increment: (state) => {
-    //   state.value += 1
-    // },
-    // decrement: (state) => {
-    //   state.value -= 1
-    // },
-    // incrementByAmount: (state, action) => {
-    //   state.value += action.payload
-    // },
 
     selectCategory: (state, action) => {
       state.categoryIdx = action.payload;
@@ -37,13 +29,16 @@ export const filterSlice = createSlice({
     setSelectedType: (state, action) => {
       state.sortType = action.payload;
     },
+
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
   },
 });
 
-console.log(filterSlice);
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount, selectCategory, setSelectedType } =
+export const { increment, decrement, incrementByAmount, selectCategory, setSelectedType, setCurrentPage } =
   filterSlice.actions;
 
 export default filterSlice.reducer;

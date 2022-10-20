@@ -2,7 +2,7 @@ import React from "react";
 import ReactPaginate from "react-paginate";
 import s from "./Pagination.module.scss";
 
-export default function Pagination({pagesCount, onChangePage}) {
+export default function Pagination({pagesCount, onChangePage, currentPage}) {
   const handlePageClick = (e) => {
     onChangePage(e.selected+1);
   };
@@ -22,6 +22,7 @@ export default function Pagination({pagesCount, onChangePage}) {
       pageCount={pagesCount}
       previousLabel="< "
       renderOnZeroPageCount={null}
+      forcePage={currentPage - 1}
     />
   );
 }
