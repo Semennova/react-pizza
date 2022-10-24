@@ -1,20 +1,25 @@
 import React from "react";
 
+export const list = [
+  { name: "популярности(asc)", property: "-rating" },
+  { name: "популярности(desc)", property: "rating" },
+  { name: "цене(asc)", property: "price" },
+  { name: "цене(desc)", property: "-price" },
+  { name: "алфавиту(asc)", property: "title" },
+  { name: "алфавиту(desc)", property: "-title" },
+];
+
+
 export default function Sort({ selected, setSelected }) {
+console.log(selected);
   const [isPopupVisible, setIsPopupVisible] = React.useState(false);
-  const list = [
-    { name: "популярности(asc)", property: "-rating" },
-    { name: "популярности(desc)", property: "rating" },
-    { name: "цене(asc)", property: "price" },
-    { name: "цене(desc)", property: "-price" },
-    { name: "алфавиту(asc)", property: "title" },
-    { name: "алфавиту(desc)", property: "-title" },
-  ];
+
 
   const onClickSelect = (name) => {
     setSelected(name);
     setIsPopupVisible(false);
   };
+
 
   return (
     <div className="sort">
@@ -42,6 +47,7 @@ export default function Sort({ selected, setSelected }) {
             {list.map((obj, i) => {
               return (
                 <li
+                key={i}
                   onClick={() => onClickSelect(obj)}
                   className={selected.property === obj.property ? "active" : ""}
                 >
