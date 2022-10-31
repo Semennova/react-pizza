@@ -9,20 +9,31 @@ export const list = [
   { name: "алфавиту(desc)", property: "-title" },
 ];
 
-
 export default function Sort({ selected, setSelected }) {
-console.log(selected);
   const [isPopupVisible, setIsPopupVisible] = React.useState(false);
-
+  const sortRef = React.useRef();
 
   const onClickSelect = (name) => {
     setSelected(name);
     setIsPopupVisible(false);
   };
 
+  React.useEffect(()=> {
+    const handleOutsideClick = (e) => {
+        if(!e.path.includes(sortRef.current)){
+          setIsPopupVisible(false);
+        }
+    }
+
+    document.body.addEventListener('click', handleOutsideClick)
+
+    return () => {
+      document.body.removeEventListener('click', handleOutsideClick)
+    }
+  }, [])
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
@@ -47,7 +58,7 @@ console.log(selected);
             {list.map((obj, i) => {
               return (
                 <li
-                key={i}
+                  key={i}
                   onClick={() => onClickSelect(obj)}
                   className={selected.property === obj.property ? "active" : ""}
                 >

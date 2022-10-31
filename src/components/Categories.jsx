@@ -7,7 +7,6 @@ const Categories = ({onChangeCategory}) => {
   const categoryIdx = useSelector((state) => state.filter.categoryIdx);
   // const dispatch = useDispatch();
 
-  console.log(categoryIdx);
 
   // const categories = [
   //   "Все",
