@@ -1,21 +1,11 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 
 
 const Categories = ({onChangeCategory}) => {
   const categories = useSelector((state) => state.filter.categories);
   const categoryIdx = useSelector((state) => state.filter.categoryIdx);
-  // const dispatch = useDispatch();
 
-
-  // const categories = [
-  //   "Все",
-  //   "Мясные",
-  //   "Вегетарианская",
-  //   "Гриль",
-  //   "Острые",
-  //   "Закрытые",
-  // ];
 
   return (
     <div className="categories">
