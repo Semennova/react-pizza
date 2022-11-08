@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import qs from 'qs'
-import { useNavigate } from 'react-router-dom'
-import { SearchContext } from '../App'
+import { Link, useNavigate } from 'react-router-dom'
+// import { SearchContext } from '../App'
 import Categories from '../components/Categories'
 import Pagination from '../components/Pagination'
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
@@ -17,17 +17,14 @@ import {
 import { fetchPizzas } from '../redux/slices/pizzasSlice'
 
 export default function Home() {
-  const { categoryIdx, sortType, currentPage } = useSelector(
-    state => state.filter
-  )
+  const { categoryIdx, sortType, currentPage, searchValue } = useSelector(state => state.filter)
 
   const { items, status } = useSelector(state => state.pizzas)
 
-  console.log(status)
-
   const dispatch = useDispatch()
+ 
 
-  const { searchValue } = React.useContext(SearchContext)
+  // const { searchValue } = React.useContext(SearchContext)
   const navigate = useNavigate()
   // const [isLoading, setIsLoading] = React.useState(true)
   const isSearch = React.useRef(false)
@@ -97,7 +94,7 @@ export default function Home() {
 
   const skeleton = [...new Array(6)].map((_, idx) => <Skeleton key={idx} />)
   const pizzas = items.map(pizza => {
-    return <PizzaBlock key={pizza.id} {...pizza} />
+    return <Link to={`/pizza/${pizza.id}`} key={pizza.id}><PizzaBlock {...pizza} /></Link>
   })
   return (
     <div className='container'>

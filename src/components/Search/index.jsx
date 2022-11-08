@@ -2,17 +2,22 @@ import React from "react";
 import s from "./Search.module.scss";
 import search from "../assets/img/search.png";
 import clear from "../assets/img/clear.png";
-import { SearchContext } from "../../App";
+// import { SearchContext } from "../../App";
 import debounce from "lodash.debounce";
+import { useSelector, useDispatch } from "react-redux";
+import { setSearchValue } from "../../redux/slices/filterSlice";
 
 export default function Search() {
   const [value, setValue] = React.useState('')
-  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  const { searchValue } = useSelector(state => state.filter.searchValue)
+  // const { searchValue, setSearchValue } = React.useContext(SearchContext);
   const inputRef = React.useRef();
+  const dispatch = useDispatch()
 
   const debounceSearchValue = React.useCallback(
     debounce((str)=> {
-      setSearchValue(str)
+      // setSearchValue(str)
+      dispatch(setSearchValue(str))
     }, 1000), []
   )
 
@@ -22,7 +27,7 @@ export default function Search() {
   };
 
   const clearInput = () => {
-    setSearchValue("")
+    dispatch(setSearchValue(''))
     setValue("");
     inputRef.current.focus();
   };
@@ -37,7 +42,7 @@ export default function Search() {
         placeholder="Поиск пиццы..."
       />
       <img className={s.icon} src={search} />
-      {searchValue && (
+      {value && (
         <img className={s.clearIcon} src={clear} onClick={clearInput} />
       )}
     </div>
