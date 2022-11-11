@@ -5,10 +5,10 @@ import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 import { Routes, Route } from 'react-router-dom'
 import Cart from './pages/Cart'
-import PizzaItem from './pages/PizzaItem.jsx'
+import PizzaItem from './pages/PizzaItem'
 import { MainLayout } from './layouts/MainLayout'
 
-export const SearchContext = React.createContext()
+// export const SearchContext = React.createContext()
 
 function App() {
   // const [searchValue, setSearchValue] = React.useState("");
