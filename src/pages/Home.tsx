@@ -15,9 +15,12 @@ import {
 } from '../redux/slices/filterSlice'
 import { fetchPizzas } from '../redux/slices/pizzasSlice'
 
-export default function Home() {
+const Home: React.FC = () => {
+  //@ts-ignore
   const { categoryIdx, sortType, currentPage, searchValue } = useSelector(state => state.filter)
 
+
+  //@ts-ignore
   const { items, status } = useSelector(state => state.pizzas)
 
   const dispatch = useDispatch()
@@ -38,6 +41,7 @@ export default function Home() {
     const search = searchValue ? `&search=${searchValue}` : ''
 
     dispatch(
+      //@ts-ignore
       fetchPizzas({
         category,
         sortBy,
@@ -83,16 +87,16 @@ export default function Home() {
     isMounted.current = true
   }, [categoryIdx, currentPage, sortType.propert])
 
-  const onChangeCategory = id => {
+  const onChangeCategory = (id: number) => {
     dispatch(selectCategory(id))
   }
 
-  const onChangePage = page => {
+  const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page))
   }
 
   const skeleton = [...new Array(6)].map((_, idx) => <Skeleton key={idx} />)
-  const pizzas = items.map(pizza => {
+  const pizzas = items.map((pizza: any) => {
     return <Link to={`/pizza/${pizza.id}`} key={pizza.id}><PizzaBlock {...pizza} /></Link>
   })
   return (
@@ -126,3 +130,6 @@ export default function Home() {
     </div>
   )
 }
+
+
+export default Home

@@ -1,10 +1,29 @@
 import React from "react";
 import {  useSelector } from "react-redux";
 
+type CategoriesProps = {
+  onChangeCategory: any
+}
 
-const Categories = ({onChangeCategory}) => {
-  const categories = useSelector((state) => state.filter.categories);
-  const categoryIdx = useSelector((state) => state.filter.categoryIdx);
+type FilterType = {
+  filter: InitialState
+}
+
+type InitialState = {
+  searchValue: string
+  categories: string[],
+  categoryIdx: number,
+  sortType: {
+    name: string
+    property: string
+  },
+  currentPage: number
+}
+
+
+const Categories: React.FC<CategoriesProps> = ({onChangeCategory}: CategoriesProps) => {
+  const categories = useSelector((state: FilterType) => state.filter.categories);
+  const categoryIdx = useSelector((state: FilterType) => state.filter.categoryIdx);
 
 
   return (

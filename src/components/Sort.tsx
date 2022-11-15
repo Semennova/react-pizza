@@ -1,6 +1,16 @@
 import React from "react";
 
-export const list = [
+type SortItemType = {
+  name: string
+  property: string
+}
+
+type SortProps = {
+  selected: SortItemType
+  setSelected: (obj:SortItemType )=> void
+}
+
+export const list: SortItemType[] = [
   { name: "популярности(asc)", property: "-rating" },
   { name: "популярности(desc)", property: "rating" },
   { name: "цене(asc)", property: "price" },
@@ -9,17 +19,17 @@ export const list = [
   { name: "алфавиту(desc)", property: "-title" },
 ];
 
-export default function Sort({ selected, setSelected }) {
+export default function Sort({ selected, setSelected }: SortProps) {
   const [isPopupVisible, setIsPopupVisible] = React.useState(false);
-  const sortRef = React.useRef();
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
-  const onClickSelect = (name) => {
-    setSelected(name);
+  const onClickSelect = (obj:SortItemType) => {
+    setSelected(obj);
     setIsPopupVisible(false);
   };
 
   React.useEffect(()=> {
-    const handleOutsideClick = (e) => {
+    const handleOutsideClick = (e: any) => {
         if(!e.path.includes(sortRef.current)){
           setIsPopupVisible(false);
         }

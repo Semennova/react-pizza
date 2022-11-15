@@ -4,22 +4,34 @@ import { addItem, cartSelectorById } from '../../redux/slices/cartSlice'
 
 const PizzaTypes = ['тонкое', 'традиционное']
 
-export default function PizzaBlock({
+type PizzaBlockprops = {
+  id: string
+  name: string
+  price: number
+  imageUrl: string
+  sizes: number[]
+  types: number[]
+}
+
+ const PizzaBlock: React.FC<PizzaBlockprops> = ({
   id,
   name,
   price,
   imageUrl,
   sizes,
   types
-}) {
+}) =>  {
   const [pizzaCount, setPizzaCount] = useState(0)
   const [activeType, setActiveType] = useState(0)
-  const [activeSize, setActiveSize] = useState()
+  const [activeSize, setActiveSize] = useState(0)
   const cartItem = useSelector(cartSelectorById(id))
 
   const addedCount = cartItem ? cartItem.count : 0
 
   const dispatch = useDispatch()
+
+  console.log(sizes);
+  
 
   const onClickAdd = () => {
     // setPizzaCount(pizzaCount + 1);
@@ -94,3 +106,6 @@ export default function PizzaBlock({
     </div>
   )
 }
+
+
+export default PizzaBlock
