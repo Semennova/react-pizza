@@ -2,7 +2,7 @@ import React from "react";
 import {  useSelector } from "react-redux";
 
 type CategoriesProps = {
-  onChangeCategory: any
+  onChangeCategory: (id: number)=> void
 }
 
 type FilterType = {

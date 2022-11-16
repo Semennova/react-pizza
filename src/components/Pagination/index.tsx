@@ -4,7 +4,7 @@ import s from "./Pagination.module.scss";
 
 type PaginationProps = {
   pagesCount: number 
-  onChangePage: any 
+  onChangePage: (page: number)=> void 
   currentPage: number
 }
 

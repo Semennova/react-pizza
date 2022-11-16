@@ -23,7 +23,7 @@ export default function Search() {
     []
   )
 
-  const onSearchValueChange = (e: any) => {
+  const onSearchValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
     debounceSearchValue(e.target.value)
   }
