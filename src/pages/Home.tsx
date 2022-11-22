@@ -14,6 +14,7 @@ import {
   setFilters
 } from '../redux/slices/filterSlice'
 import { fetchPizzas } from '../redux/slices/pizzasSlice'
+import { useAppDispatch } from '../redux/store'
 
 const Home: React.FC = () => {
   //@ts-ignore
@@ -23,7 +24,7 @@ const Home: React.FC = () => {
   //@ts-ignore
   const { items, status } = useSelector(state => state.pizzas)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
  
 
   // const { searchValue } = React.useContext(SearchContext)
@@ -41,7 +42,6 @@ const Home: React.FC = () => {
     const search = searchValue ? `&search=${searchValue}` : ''
 
     dispatch(
-      //@ts-ignore
       fetchPizzas({
         category,
         sortBy,
@@ -59,7 +59,9 @@ const Home: React.FC = () => {
       const sort = list.find(obj => obj.property === params.sortProperty)
       dispatch(
         setFilters({
+        
           ...params,
+            //@ts-ignore
           sort
         })
       )
@@ -97,7 +99,8 @@ const Home: React.FC = () => {
 
   const skeleton = [...new Array(6)].map((_, idx) => <Skeleton key={idx} />)
   const pizzas = items.map((pizza: any) => {
-    return <Link to={`/pizza/${pizza.id}`} key={pizza.id}><PizzaBlock {...pizza} /></Link>
+    return <PizzaBlock {...pizza} />
+    
   })
   return (
     <div className='container'>
@@ -107,6 +110,7 @@ const Home: React.FC = () => {
           selected={sortType}
           setSelected={name => {
             dispatch(setSelectedType(name))
+            
           }}
         />
       </div>

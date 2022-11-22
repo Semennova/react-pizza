@@ -1,8 +1,10 @@
 import React from "react";
 
-type SortItemType = {
+export type SortItemType = {
   name: string
-  property: string
+  property: "rating" | "-rating" |
+  "price" | "-price" |
+  "title" |  "-title"
 }
 
 type SortProps = {
