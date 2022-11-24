@@ -1,5 +1,6 @@
 import React from "react";
 import {  useSelector } from "react-redux";
+import  useWhyDidYouUpdate  from 'ahooks/lib/useWhyDidYouUpdate'
 
 type CategoriesProps = {
   onChangeCategory: (id: number)=> void
@@ -21,9 +22,11 @@ type InitialState = {
 }
 
 
-const Categories: React.FC<CategoriesProps> = ({onChangeCategory}: CategoriesProps) => {
+const Categories: React.FC<CategoriesProps> = React.memo(({onChangeCategory}: CategoriesProps) => {
   const categories = useSelector((state: FilterType) => state.filter.categories);
   const categoryIdx = useSelector((state: FilterType) => state.filter.categoryIdx);
+
+  useWhyDidYouUpdate('Categories', {onChangeCategory})
 
 
   return (
@@ -44,6 +47,6 @@ const Categories: React.FC<CategoriesProps> = ({onChangeCategory}: CategoriesPro
       </ul>
     </div>
   );
-};
+}) 
 
 export default Categories;

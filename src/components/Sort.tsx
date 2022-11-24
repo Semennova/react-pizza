@@ -1,4 +1,5 @@
 import React from "react";
+import  useWhyDidYouUpdate  from 'ahooks/lib/useWhyDidYouUpdate'
 
 export type SortItemType = {
   name: string
@@ -26,9 +27,11 @@ export const list: SortItemType[] = [
   { name: "алфавиту(desc)", property: "-title" },
 ];
 
-export default function Sort({ selected, setSelected }: SortProps) {
+const Sort = React.memo(({ selected, setSelected }: SortProps) => {
   const [isPopupVisible, setIsPopupVisible] = React.useState(false);
   const sortRef = React.useRef<HTMLDivElement>(null);
+
+  useWhyDidYouUpdate('Sort', { selected, setSelected })
 
   const onClickSelect = (obj:SortItemType) => {
     setSelected(obj);
@@ -89,4 +92,7 @@ export default function Sort({ selected, setSelected }: SortProps) {
       )}
     </div>
   );
-}
+})  
+
+
+export default Sort 

@@ -7,12 +7,7 @@ import Pagination from '../components/Pagination'
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton'
 import Sort, { list } from '../components/Sort'
-import {
-  selectCategory,
-  setSelectedType,
-  setCurrentPage,
-  setFilters
-} from '../redux/slices/filterSlice'
+import { selectCategory, setSelectedType, setCurrentPage, setFilters } from '../redux/slices/filterSlice'
 import { fetchPizzas } from '../redux/slices/pizzasSlice'
 import { useAppDispatch } from '../redux/store'
 
@@ -20,12 +15,10 @@ const Home: React.FC = () => {
   //@ts-ignore
   const { categoryIdx, sortType, currentPage, searchValue } = useSelector(state => state.filter)
 
-
   //@ts-ignore
   const { items, status } = useSelector(state => state.pizzas)
 
   const dispatch = useAppDispatch()
- 
 
   // const { searchValue } = React.useContext(SearchContext)
   const navigate = useNavigate()
@@ -53,15 +46,14 @@ const Home: React.FC = () => {
   }
 
   React.useEffect(() => {
-    if (window.location.search) {
+    if (!window.location.search) {
       const params = qs.parse(window.location.search.substring(1))
 
       const sort = list.find(obj => obj.property === params.sortProperty)
       dispatch(
         setFilters({
-        
           ...params,
-            //@ts-ignore
+          //@ts-ignore
           sort
         })
       )
@@ -87,31 +79,36 @@ const Home: React.FC = () => {
       navigate(`?${queryString}`)
     }
     isMounted.current = true
-  }, [categoryIdx, currentPage, sortType.propert])
+  }, [categoryIdx, currentPage, sortType.property])
 
-  const onChangeCategory = (id: number) => {
+  const onChangeCategory = React.useCallback((id: number) => {
     dispatch(selectCategory(id))
-  }
+  }, [])
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page))
   }
 
+  const setSelectedCategory = React.useCallback((name: any) => {
+    dispatch(setSelectedType(name))
+  }, [])
+  
   const skeleton = [...new Array(6)].map((_, idx) => <Skeleton key={idx} />)
   const pizzas = items.map((pizza: any) => {
-    return <PizzaBlock {...pizza} />
-    
+    return <PizzaBlock key={pizza.id} {...pizza} />
   })
+
   return (
     <div className='container'>
       <div className='content__top'>
         <Categories onChangeCategory={onChangeCategory} />
         <Sort
           selected={sortType}
-          setSelected={name => {
-            dispatch(setSelectedType(name))
-            
-          }}
+          // setSelected={name => {
+          //   dispatch(setSelectedType(name))
+
+          // }}
+          setSelected={setSelectedCategory}
         />
       </div>
       <h2 className='content__title'>Все пиццы</h2>
@@ -121,19 +118,12 @@ const Home: React.FC = () => {
           <p>Не удалось получить данные. Повторите попытку позже.</p>{' '}
         </div>
       ) : (
-        <div className='content__items'>
-          {status === 'loading' ? skeleton : pizzas}
-        </div>
+        <div className='content__items'>{status === 'loading' ? skeleton : pizzas}</div>
       )}
 
-      <Pagination
-        currentPage={currentPage}
-        pagesCount={2}
-        onChangePage={onChangePage}
-      />
+      <Pagination currentPage={currentPage} pagesCount={2} onChangePage={onChangePage} />
     </div>
   )
 }
-
 
 export default Home
