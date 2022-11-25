@@ -2,11 +2,9 @@ import React from 'react'
 import s from './Search.module.scss'
 import search from '../assets/img/search.png'
 import clear from '../assets/img/clear.png'
-// import { SearchContext } from "../../App";
 import debounce from 'lodash.debounce'
 import { useDispatch } from 'react-redux'
-import { setSearchValue } from '../../redux/slices/filterSlice'
-
+import { setSearchValue } from '../../redux/filter/slice'
 
 export default function Search() {
   const [value, setValue] = React.useState('')

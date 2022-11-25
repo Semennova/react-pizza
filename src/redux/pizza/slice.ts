@@ -1,37 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import axios from 'axios'
-import { RootState } from '../store'
+import { createSlice } from '@reduxjs/toolkit'
+import { fetchPizzas } from './asyncActions'
+import { IPizzaSliceState, Status } from './types'
 
-interface IPizzaSliceState {
-  items: PizzaSlice[]
-  status: 'loading' | 'success' | 'error'
-}
-
-type PizzaSlice = {
-  id: string
-  name: string
-  price: number
-  imageUrl: string
-  sizes: number[]
-  types: number[]
-}
-
-enum Status {
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error'
-}
-
-export const fetchPizzas = createAsyncThunk<PizzaSlice[], Record<string, string>>(
-  'pizzas/fetchPizzasStatus',
-  async params => {
-    const { category, sortBy, order, search, currentPage } = params
-    const { data } = await axios.get<PizzaSlice[]>(
-      `https://6332bc21573c03ab0b4f552f.mockapi.io/items?${category}&sortBy=${sortBy}${search}&order=${order}&page=${currentPage}&limit=8`
-    )
-    return data
-  }
-)
 
 const initialState: IPizzaSliceState = {
   items: [],
@@ -80,7 +50,7 @@ export const pizzasSlice = createSlice({
   // }
 })
 
-export const pizzasSelector = (state: RootState) => state.pizzas
+// export const pizzasSelector = (state: RootState) => state.pizzas
 
 // Action creators are generated for each case reducer function
 export const { setItems } = pizzasSlice.actions
