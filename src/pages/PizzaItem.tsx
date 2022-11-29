@@ -2,7 +2,7 @@ import axios from 'axios'
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 const PizzaItem: React.FC = () => {
   const [pizza, setPizza] = useState<{
@@ -24,7 +24,7 @@ const PizzaItem: React.FC = () => {
   }
 
   useEffect(() => {
-    fetchPizzas() 
+    fetchPizzas()
   }, [])
 
   if (!pizza) {
@@ -35,6 +35,10 @@ const PizzaItem: React.FC = () => {
       <img src={pizza.imageUrl} />
       <h1>{pizza.name}</h1>
       <h4>{pizza.price} ₽</h4>
+
+      <Link to='/' className='button button--outline button--add go-back-btn'>
+        <span>Вернуться назад</span>
+      </Link>
     </div>
   )
 }

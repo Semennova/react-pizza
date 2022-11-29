@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import './app.scss'
 import Home from './pages/Home'
-import NotFound from './pages/NotFound'
 import { Routes, Route } from 'react-router-dom'
-import Cart from './pages/Cart'
-import PizzaItem from './pages/PizzaItem'
 import { MainLayout } from './layouts/MainLayout'
+
+const Cart = React.lazy(() =>import(/*webpackChunkName: "Cart"*/ './pages/Cart'))
+const NotFound = React.lazy(() => import(/*webpackChunkName: "NotFound"*/  './pages/NotFound'))
+const PizzaItem = React.lazy(() => import(/*webpackChunkName: "PizzaItem"*/ './pages/PizzaItem'))
 
 // export const SearchContext = React.createContext()
 
@@ -18,9 +19,30 @@ function App() {
     <Routes>
       <Route path='/' element={<MainLayout />}>
         <Route path='' element={<Home />} />
-        <Route path='cart' element={<Cart />} />
-        <Route path='*' element={<NotFound />} />
-        <Route path='pizza/:id' element={<PizzaItem />} />
+        <Route
+          path='cart'
+          element={
+            <Suspense fallback='Loading...'>
+              <Cart />
+            </Suspense>
+          }
+        />
+        <Route
+          path='*'
+          element={
+            <Suspense fallback='Loading...'>
+              <NotFound />
+            </Suspense>
+          }
+        />
+        <Route
+          path='pizza/:id'
+          element={
+            <Suspense fallback='Loading...'>
+              <PizzaItem />
+            </Suspense>
+          }
+        />
       </Route>
     </Routes>
   )
